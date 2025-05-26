@@ -10,47 +10,25 @@ const mobileMenu = document.getElementById('mobileMenu');
 const currentYearElements = document.querySelectorAll('#currentYear');
 
 // Initialize the app
-document.addEventListener('DOMContentLoaded', function () {
-  // Fetch products from backend
-  fetch("http://127.0.0.1:8000/products/")
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data); // هنا تقدر تعرضهم في الصفحة
-
-      // مثال لعرض المنتجات داخل عنصر معين في الصفحة
-      const container = document.getElementById("products");
-      if (container) {
-        data.forEach(product => {
-          const item = document.createElement("div");
-          item.textContent = '${product.name} - ${product.price} EGP';
-          container.appendChild(item);
-        });
-      }
-    })
-    .catch((err) => {
-      console.error("Error fetching products:", err);
-    });
-
-  // ✅ Set current year in footer
+document.addEventListener('DOMContentLoaded', function() {
+  // Set current year in footer
   const currentYear = new Date().getFullYear();
-  const currentYearElements = document.querySelectorAll('.current-year'); // تأكد فيه عناصر بكلاسين ده
   currentYearElements.forEach(el => {
     el.textContent = currentYear;
   });
-
-  // ✅ Update cart count (تأكد إن عندك دالة اسمها updateCartCount)
-  if (typeof updateCartCount === "function") {
-    updateCartCount();
-  }
-
-  // ✅ Mobile menu toggle
-  const mobileMenuButton = document.getElementById("mobile-menu-button");
-  const mobileMenu = document.getElementById("mobile-menu");
+  
+  // Update cart count
+  updateCartCount();
+  
+  // Mobile menu toggle
   if (mobileMenuButton && mobileMenu) {
-    mobileMenuButton.addEventListener('click', function () {
+    mobileMenuButton.addEventListener('click', function() {
       mobileMenu.classList.toggle('active');
     });
   }
+  
+  // Fetch products data
+  fetchProducts();
 });
 
 // Cart Functions
@@ -101,19 +79,6 @@ function clearCart() {
 
 // Products Data & Rendering
 function fetchProducts() {
-  function fetchProducts() {
-  fetch("http://127.0.0.1:8000/products/")
-    .then((res) => res.json())
-    .then((data) => {
-      products = data;
-      renderFeaturedProducts();
-      renderSpecialProducts();
-    })
-    .catch((err) => {
-      console.error("Error fetching products:", err);
-    });
-}
-  
   // In a real app, this would be an API call
   products = [
     {
@@ -434,4 +399,3 @@ window.NileBean = {
   calculateTotalPrice,
   showToast
 };
-
